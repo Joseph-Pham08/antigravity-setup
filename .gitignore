@@ -1,0 +1,18 @@
+# OS & Editor
+Thumbs.db
+.DS_Store
+*.log
+
+# Secrets & Env
+.env
+.env.*
+*.key
+*.pem
+auth.json
+
+# Dependencies & Cache
+node_modules/
+__pycache__/
+.venv/
+venv/
+*.pyc
