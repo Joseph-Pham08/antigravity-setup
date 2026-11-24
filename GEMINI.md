@@ -14,8 +14,15 @@ Khi người dùng yêu cầu tạo/khởi tạo dự án mới, hỏi chọn sk
 2. **Đề xuất 3–7 skill sát nhất** theo vai trò (Spec/Kế hoạch, Kiến trúc/Backend, UI/Frontend, Test/Review, Deploy/Domain), kèm 1 dòng lý do cho mỗi skill.
 3. **Chờ người dùng xác nhận** bộ skill muốn dùng rồi mới đọc chi tiết các `SKILL.md` được chọn để triển khai.
 
-## 3. Kỷ luật triển khai & Kiểm chứng
-- **Spec trước, code sau (với tác vụ lớn/mơ hồ):** Chủ động gợi ý chốt spec/kế hoạch (`openspec-propose`, `spec`, hoặc `/plan`) trước khi sửa nhiều file.
+## 3. Thư viện mở rộng ECC (On-Demand)
+- Khi người dùng yêu cầu đổi chế độ (`dev` / `research` / `review`), gọi vai trò agent chuyên biệt hoặc workflow chuẩn, đọc trực tiếp từ:
+  - `%USERPROFILE%\.gemini\ecc\contexts\` (`dev.md`, `research.md`, `review.md`)
+  - `%USERPROFILE%\.gemini\ecc\agents\` (72 agent profiles)
+  - `%USERPROFILE%\.gemini\ecc\commands\` (99 workflow templates)
+
+## 4. Kỷ luật Code, Bảo mật & Kiểm chứng
+- **Spec trước, code sau (với tác vụ lớn/mơ hồ):** Gợi ý chốt spec/kế hoạch (`openspec-propose`, `spec`, hoặc `/plan`) trước khi sửa nhiều file.
+- **Coding & Security Checklist:** Ưu tiên immutability, hàm nhỏ gọn, validate dữ liệu đầu vào ở boundary, fail loudly với lỗi rõ ràng; **không** hardcode secrets/API keys, luôn dùng parameterized DB queries, sanitize HTML, kiểm tra authz/authn, và dùng Conventional Commits (`feat`, `fix`, `refactor`, `docs`, `test`, `chore`, `perf`, `ci`).
 - **Kiểm chứng thực tế:** Sau khi sửa code hoặc cấu hình, luôn chạy lệnh/test kiểm tra thực tế; không suy đoán kết quả chưa chạy.
-- **An toàn thay đổi:** Không tự ý xóa dữ liệu hoặc ghi đè cấu hình quan trọng của người dùng; backup trước khi dọn dẹp hoặc di chuyển hàng loạt.
+- **An toàn thay đổi:** Không tự ý xóa dữ liệu hoặc ghi đè cấu hình quan trọng của người dùng; backup trước khi thao tác hàng loạt.
 - **Giao tiếp:** Ngắn gọn, đi thẳng vào vấn đề, dùng tiếng Việt tự nhiên (trừ khi người dùng dùng tiếng Anh).

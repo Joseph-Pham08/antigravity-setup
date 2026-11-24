@@ -58,6 +58,19 @@ if (Test-Path $SrcPlugins) {
     Write-Host "[OK] Installed plugins ($PluginSkillCount plugin skills)" -ForegroundColor Green
 }
 
+# 4b. Copy ECC extras (contexts, agents, commands) for on-demand use
+$EccDir = Join-Path $GeminiRoot "ecc"
+New-Item -ItemType Directory -Path $EccDir -Force | Out-Null
+foreach ($sub in @("contexts", "agents", "commands")) {
+    $SrcSub = Join-Path $RepoDir $sub
+    $DstSub = Join-Path $EccDir $sub
+    if (Test-Path $SrcSub) {
+        if (Test-Path $DstSub) { Remove-Item $DstSub -Recurse -Force }
+        Copy-Item -Path $SrcSub -Destination $DstSub -Recurse -Force
+    }
+}
+Write-Host "[OK] Installed ECC contexts, agents, and commands" -ForegroundColor Green
+
 # 5. Copy mcp_config.json (only if user doesn't have one or confirms overwrite)
 $SrcMcp = Join-Path $RepoDir "mcp_config.json"
 $DstMcp = Join-Path $ConfigDir "mcp_config.json"

@@ -1,6 +1,6 @@
 # Antigravity Setup Pack
 
-Bộ cấu hình **Antigravity** tối ưu sẵn cho Windows — không trùng lặp skill, gồm **430 skill** (**108** standalone + **322** trong plugin), **Global Rules**, **MCP Chrome DevTools**, và script **`install.ps1`** cài đặt tự động chỉ với vài dòng lệnh.
+Bộ cấu hình **Antigravity** tối ưu sẵn cho Windows — không trùng lặp skill, gồm **751 skill** (**429** standalone đã gộp thêm **321 skill từ `affaan-m/ECC`** + **322** trong plugin), **72 agent profiles**, **99 workflow commands**, **3 context modes**, **Global Rules**, **MCP Chrome DevTools + Catalog**, và script **`install.ps1`** cài đặt tự động.
 
 ---
 
@@ -8,9 +8,9 @@ Bộ cấu hình **Antigravity** tối ưu sẵn cho Windows — không trùng l
 
 ### 1. Rules (`GEMINI.md` & Plugin `AGENTS.md`)
 - **`GEMINI.md` (Global Rule):**
-  - Tự động kích hoạt khi bạn yêu cầu **tạo dự án mới**, **chọn skill phù hợp**, hoặc **vừa cài thêm skill mới**.
-  - Quét trực tiếp (read-only) toàn bộ `SKILL.md` trong `%USERPROFILE%\.gemini\config\skills`, `config\plugins`, và `antigravity\builtin` (giúp phát hiện cả skill mới thêm lẫn skill bị ẩn mô tả do giới hạn context budget).
-  - Lọc và đề xuất **3–7 skill phù hợp nhất** theo từng vai trò (Spec/Kiến trúc, Backend, UI/Frontend, Test/Review, Deploy/Domain) rồi chờ bạn xác nhận trước khi code.
+  - **Domain-First Routing:** Mặc định ưu tiên skill Lập trình, Kiến trúc, UI/UX, Test/Review, Deploy, Content & Văn phòng; chỉ quét/nạp nhóm Nghiên cứu khoa học khi bài toán thực sự liên quan hoặc được gọi đích danh.
+  - **Zero-Miss Skill Discovery:** Quét trực tiếp (read-only) toàn bộ `SKILL.md` trong `%USERPROFILE%\.gemini\config\skills`, `config\plugins`, và `antigravity\builtin`, lọc **3–7 skill phù hợp nhất** rồi chờ xác nhận trước khi code.
+  - **ECC On-Demand & Engineering Discipline:** Hỗ trợ đọc `contexts/`, `agents/`, `commands/` theo yêu cầu; tích hợp Coding Standards, Security Checklist & Conventional Commits từ ECC.
 - **`plugins/antigravity-kit-plugin/rules/AGENTS.md`:**
   - Tự động nhận diện **tiếng Việt tự nhiên** (khẩu ngữ, từ lóng kỹ thuật) để map đúng skill (VD: *"viết code sạch"* -> `clean-code`, *"lập spec"* -> `openspec-propose`, *"làm đẹp UI"* -> `impeccable` / `ui-ux-pro-max`).
   - Giữ phản hồi ngắn gọn, đi thẳng vào giải pháp/code.
@@ -41,8 +41,8 @@ Bộ cấu hình **Antigravity** tối ưu sẵn cho Windows — không trùng l
 
 ---
 
-### 3. Standalone Skills (`skills/` — 108 skills)
-Các skill cài rời (đã lọc bỏ trùng lặp với plugin):
+### 3. Standalone Skills (`skills/` — 429 skills)
+Gồm **108 skill gốc** đã lọc trùng + **321 skill mới từ `affaan-m/ECC`** (đã tự động bỏ qua 7 skill trùng tên):
 - **Lập kế hoạch, Spec & Tư duy phản biện:** `spec-driven-development`, `planning-and-task-breakdown`, `to-spec`, `to-tickets`, `to-questionnaire`, `wayfinder`, `implement`, `implement-spec`, `idea-refine`, `grill-me`, `grilling`, `grill-with-docs`, `interview-me`, `doubt-driven-development`, `ask-matt`, `wait-what`.
 - **Kiến trúc, Code Quality & Review:** `codebase-design`, `api-and-interface-design`, `backend-patterns`, `domain-modeling`, `code-review`, `code-review-and-quality`, `code-simplification`, `improve-codebase-architecture`, `incremental-implementation`, `deprecation-and-migration`, `setup-ts-deep-modules`, `health`, `source-driven-development`.
 - **Testing, Debug, Bảo mật & Git/CI:** `tdd`, `test-driven-development`, `debugging-and-error-recovery`, `diagnosing-bugs`, `security-and-hardening`, `observability-and-instrumentation`, `performance-optimization`, `migrate-to-shoehorn`, `git-workflow-and-versioning`, `git-guardrails-claude-code`, `setup-pre-commit`, `ci-cd-and-automation`, `shipping-and-launch`, `pr`, `triage`, `retro`.
@@ -54,8 +54,15 @@ Các skill cài rời (đã lọc bỏ trùng lặp với plugin):
 
 ---
 
-### 4. MCP Server (`mcp_config.json`)
-- Cấu hình sẵn **`chrome-devtools`** (`npx.cmd -y chrome-devtools-mcp@latest --autoConnect`) để agent debug DOM, console, network, performance trực tiếp trên Chrome.
+### 4. Thư viện mở rộng ECC (`contexts/`, `agents/`, `commands/`)
+*(Được cài vào `%USERPROFILE%\.gemini\ecc\` để nạp theo yêu cầu, không làm nặng context mặc định; phần `hooks.json` thử nghiệm của ECC được lược bỏ để đảm bảo an toàn, không chặn nhầm lệnh trên Windows.)*
+- **`contexts/` (3 chế độ):** `dev.md`, `research.md`, `review.md`.
+- **`agents/` (72 profiles):** `architect.md`, `code-architect.md`, `build-error-resolver.md`, `a11y-architect.md`, `agent-evaluator.md`...
+- **`commands/` (99 templates):** `build-fix.md`, `code-review.md`, `checkpoint.md`, `cost-report.md`...
+
+### 5. MCP Server (`mcp_config.json` & `mcp_servers.catalog.json`)
+- **`mcp_config.json`:** Cấu hình sẵn **`chrome-devtools`** (`npx.cmd -y chrome-devtools-mcp@latest --autoConnect`) để debug DOM, console, network, performance trực tiếp trên Chrome.
+- **`mcp_servers.catalog.json`:** Danh mục 38+ MCP server tham khảo từ ECC (Context7, GitHub, Cloudflare, Supabase, Playwright...) để copy thêm khi cần.
 
 ---
 
