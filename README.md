@@ -9,7 +9,7 @@ Bộ cấu hình **Antigravity** tối ưu sẵn cho Windows — không trùng l
 ### 1. Rules (`GEMINI.md` & Plugin `AGENTS.md`)
 - **`GEMINI.md` (Global Rule):**
   - **Domain-First Routing:** Mặc định ưu tiên skill Lập trình, Kiến trúc, UI/UX, Test/Review, Deploy, Content & Văn phòng; chỉ quét/nạp nhóm Nghiên cứu khoa học khi bài toán thực sự liên quan hoặc được gọi đích danh.
-  - **Zero-Miss Skill Discovery:** Quét trực tiếp (read-only) toàn bộ `SKILL.md` trong `%USERPROFILE%\.gemini\config\skills`, `config\plugins`, và `antigravity\builtin`, lọc **3–7 skill phù hợp nhất** rồi chờ xác nhận trước khi code.
+  - **Zero-Miss Skill Discovery & Quy trình 4 pha (ưu tiên trắc nghiệm):** Khi tạo dự án mới / tính năng lớn, lần lượt qua 4 pha: *(1) Chốt kỹ thuật bằng câu hỏi trắc nghiệm* -> *(2) Quét trực tiếp `SKILL.md` trên máy và đề xuất **10+ skill** (chia 2 tầng Core + Theo pha)* -> *(3) Chốt trải nghiệm UX/UI bằng câu hỏi trắc nghiệm* -> *(4) Triển khai*. (Task nhỏ được xử lý thẳng.)
   - **On-Demand Library & Engineering Discipline:** Hỗ trợ đọc `contexts/`, `agents/`, `commands/` theo yêu cầu; tích hợp Coding Standards (immutability, validate boundary input), Security Checklist & Conventional Commits.
 - **`plugins/antigravity-kit-plugin/rules/AGENTS.md`:**
   - Tự động nhận diện **tiếng Việt tự nhiên** (khẩu ngữ, từ lóng kỹ thuật) để map đúng skill (VD: *"viết code sạch"* -> `clean-code`, *"lập spec"* -> `openspec-propose`, *"làm đẹp UI"* -> `impeccable` / `ui-ux-pro-max`).
